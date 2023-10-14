@@ -4,13 +4,12 @@ const routes = require('./routes');
 const init = async () => {
     const server = Hapi.server({
         port: 5000,
-        host: 'localhost',
+        host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
         routes: {
             cors: {
-                origin: ['http://notesapp-v1.dicodingacademy.com', 'http://localhost:8080'], // '*'
+                origin: ['*'],
             },
         },
-
     });
 
     server.route(routes);
