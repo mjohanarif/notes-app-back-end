@@ -12,15 +12,12 @@ const init = async () => {
         },
     });
 
-    // Define a request extension to handle 'clientError'
     server.ext('onRequest', (request, h) => {
         request.raw.req.on('clientError', (err) => {
             console.error('Client error:', err);
 
-            // Use the 'destroy' method on the underlying socket to close it
             request.raw.req.socket.destroy();
 
-            // Respond with an error message
             return h.response('Client error occurred').code(500);
         });
 
@@ -33,9 +30,9 @@ const init = async () => {
     console.log(`Server berjalan pada ${server.info.uri}`);
 };
 
-// process.on('unhandledRejection', (err) => {
-//     console.log(err);
-//     process.exit(1);
-// });
+process.on('unhandledRejection', (err) => {
+    console.log(err);
+    process.exit(1);
+});
 
 init();
